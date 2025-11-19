@@ -1,0 +1,38 @@
+{
+  "app": {
+    "name": "Stasiun Cuaca",
+    "tagline": "Ngawasi Cuaca Real-time"
+  },
+  "nav": {
+    "dashboard": "Dasbor",
+    "settings": "Pangaturan",
+    "about": "Babagan"
+  },
+  "common": {
+    "loading": "Nganggo...",
+    "error": "Ana kalepatan",
+    "retry": "Nyoba Maneh",
+    "cancel": "Batal",
+    "save": "Simpen",
+    "close": "Tutup",
+    "back": "Bali",
+    "next": "Sabanjure",
+    "skip": "Lungani",
+    "done": "Rampung",
+    "online": "Nyambung",
+    "offline": "Pedhot",
+    "reconnecting": "Nyambung maneh..."
+  },
+  "time": {
+    "now": "Saiki",
+    "today": "Dina Iki",
+    "yesterday": "Wingi",
+    "tomorrow": "Sesuk",
+    "hour": "jam",
+    "hours": "jam",
+    "minute": "menit",
+    "minutes": "menit",
+    "second": "detik",
+    "seconds": "detik"
+  }
+}

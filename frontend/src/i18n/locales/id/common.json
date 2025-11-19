@@ -1,0 +1,38 @@
+{
+  "app": {
+    "name": "Stasiun Cuaca",
+    "tagline": "Monitoring Cuaca Real-time"
+  },
+  "nav": {
+    "dashboard": "Dasbor",
+    "settings": "Pengaturan",
+    "about": "Tentang"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba Lagi",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "close": "Tutup",
+    "back": "Kembali",
+    "next": "Selanjutnya",
+    "skip": "Lewati",
+    "done": "Selesai",
+    "online": "Terhubung",
+    "offline": "Terputus",
+    "reconnecting": "Menghubungkan kembali..."
+  },
+  "time": {
+    "now": "Sekarang",
+    "today": "Hari Ini",
+    "yesterday": "Kemarin",
+    "tomorrow": "Besok",
+    "hour": "jam",
+    "hours": "jam",
+    "minute": "menit",
+    "minutes": "menit",
+    "second": "detik",
+    "seconds": "detik"
+  }
+}

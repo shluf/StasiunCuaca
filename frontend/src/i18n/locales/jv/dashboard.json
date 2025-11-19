@@ -1,0 +1,71 @@
+{
+  "title": "Dasbor Cuaca",
+  "currentWeather": "Cuaca Saiki",
+  "forecast": "Prakiraan Cuaca",
+  "sensorData": "Data Sensor",
+  "history": "Riwayat Data",
+  "alerts": "Peringatan Cuaca",
+  "noData": "Ora ana data",
+  "lastUpdate": "Dianyari pungkasan",
+  "refreshing": "Nganyari data...",
+  "viewHistory": "Ndeleng Riwayat",
+  "sensors": {
+    "temperature": "Suhu",
+    "humidity": "Kalemman",
+    "pressure": "Tekanan Udara",
+    "altitude": "Dhuwur",
+    "co2": "Kadar CO₂",
+    "windSpeed": "Kacepetan Angin",
+    "windDirection": "Arah Angin",
+    "rainfall": "Udan",
+    "distance": "Jarak",
+    "voltage": "Tegangan",
+    "current": "Arus"
+  },
+  "units": {
+    "celsius": "°C",
+    "fahrenheit": "°F",
+    "percent": "%",
+    "hpa": "hPa",
+    "meter": "m",
+    "ppm": "ppm",
+    "ms": "m/s",
+    "kmh": "km/j",
+    "mph": "mph",
+    "degree": "°",
+    "mm": "mm",
+    "cm": "cm",
+    "volt": "V",
+    "milliamp": "mA"
+  },
+  "conditions": {
+    "clear": "Cerah",
+    "clouds": "Mendhung",
+    "rain": "Udan",
+    "drizzle": "Grimis",
+    "thunderstorm": "Badai Bledheg",
+    "snow": "Salju",
+    "mist": "Pedhut",
+    "fog": "Kabut",
+    "haze": "Kabut Kumelun"
+  },
+  "alerts": {
+    "highTemperature": "Suhu Panas Banget",
+    "lowTemperature": "Suhu Adhem Banget",
+    "highHumidity": "Kalemman Dhuwur",
+    "lowHumidity": "Kalemman Entek",
+    "highCO2": "Kadar CO₂ Dhuwur",
+    "dangerCO2": "Kadar CO₂ Mbebayani",
+    "strongWind": "Angin Kenceng",
+    "dangerWind": "Angin Kenceng Banget",
+    "heavyRain": "Udan Deres",
+    "veryHeavyRain": "Udan Deres Banget",
+    "lowPressure": "Tekanan Endhek"
+  },
+  "feelsLike": "Kroso kaya",
+  "trends": {
+    "up": "Mundhak",
+    "down": "Mudhun",
+    "stable": "Stabil"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "title": "Weather Dashboard",
+  "currentWeather": "Current Weather",
+  "forecast": "Forecast",
+  "sensorData": "Sensor Data",
+  "history": "Data History",
+  "alerts": "Weather Alerts",
+  "noData": "No data available",
+  "lastUpdate": "Last updated",
+  "refreshing": "Refreshing data...",
+  "viewHistory": "View History",
+  "sensors": {
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "pressure": "Pressure",
+    "altitude": "Altitude",
+    "co2": "CO₂ Level",
+    "windSpeed": "Wind Speed",
+    "windDirection": "Wind Direction",
+    "rainfall": "Rainfall",
+    "distance": "Distance",
+    "voltage": "Voltage",
+    "current": "Current"
+  },
+  "units": {
+    "celsius": "°C",
+    "fahrenheit": "°F",
+    "percent": "%",
+    "hpa": "hPa",
+    "meter": "m",
+    "ppm": "ppm",
+    "ms": "m/s",
+    "kmh": "km/h",
+    "mph": "mph",
+    "degree": "°",
+    "mm": "mm",
+    "cm": "cm",
+    "volt": "V",
+    "milliamp": "mA"
+  },
+  "conditions": {
+    "clear": "Clear",
+    "clouds": "Cloudy",
+    "rain": "Rain",
+    "drizzle": "Drizzle",
+    "thunderstorm": "Thunderstorm",
+    "snow": "Snow",
+    "mist": "Mist",
+    "fog": "Fog",
+    "haze": "Haze"
+  },
+  "alerts": {
+    "highTemperature": "Very Hot Temperature",
+    "lowTemperature": "Very Cold Temperature",
+    "highHumidity": "High Humidity",
+    "lowHumidity": "Low Humidity",
+    "highCO2": "High CO₂ Level",
+    "dangerCO2": "Dangerous CO₂ Level",
+    "strongWind": "Strong Wind",
+    "dangerWind": "Very Strong Wind",
+    "heavyRain": "Heavy Rain",
+    "veryHeavyRain": "Very Heavy Rain",
+    "lowPressure": "Low Pressure"
+  },
+  "feelsLike": "Feels like",
+  "trends": {
+    "up": "Rising",
+    "down": "Falling",
+    "stable": "Stable"
+  }
+}

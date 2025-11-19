@@ -1,0 +1,71 @@
+{
+  "title": "Dasbor Cuaca",
+  "currentWeather": "Cuaca Saat Ini",
+  "forecast": "Prakiraan Cuaca",
+  "sensorData": "Data Sensor",
+  "history": "Riwayat Data",
+  "alerts": "Peringatan Cuaca",
+  "noData": "Tidak ada data tersedia",
+  "lastUpdate": "Pembaruan terakhir",
+  "refreshing": "Memperbarui data...",
+  "viewHistory": "Lihat Riwayat",
+  "sensors": {
+    "temperature": "Suhu",
+    "humidity": "Kelembapan",
+    "pressure": "Tekanan Udara",
+    "altitude": "Ketinggian",
+    "co2": "Kadar CO₂",
+    "windSpeed": "Kecepatan Angin",
+    "windDirection": "Arah Angin",
+    "rainfall": "Curah Hujan",
+    "distance": "Jarak",
+    "voltage": "Tegangan",
+    "current": "Arus"
+  },
+  "units": {
+    "celsius": "°C",
+    "fahrenheit": "°F",
+    "percent": "%",
+    "hpa": "hPa",
+    "meter": "m",
+    "ppm": "ppm",
+    "ms": "m/s",
+    "kmh": "km/j",
+    "mph": "mph",
+    "degree": "°",
+    "mm": "mm",
+    "cm": "cm",
+    "volt": "V",
+    "milliamp": "mA"
+  },
+  "conditions": {
+    "clear": "Cerah",
+    "clouds": "Berawan",
+    "rain": "Hujan",
+    "drizzle": "Gerimis",
+    "thunderstorm": "Badai Petir",
+    "snow": "Salju",
+    "mist": "Berkabut",
+    "fog": "Kabut",
+    "haze": "Kabut Asap"
+  },
+  "alerts": {
+    "highTemperature": "Suhu Sangat Panas",
+    "lowTemperature": "Suhu Sangat Dingin",
+    "highHumidity": "Kelembapan Tinggi",
+    "lowHumidity": "Kelembapan Rendah",
+    "highCO2": "Kadar CO₂ Tinggi",
+    "dangerCO2": "Kadar CO₂ Berbahaya",
+    "strongWind": "Angin Kencang",
+    "dangerWind": "Angin Sangat Kencang",
+    "heavyRain": "Hujan Deras",
+    "veryHeavyRain": "Hujan Sangat Deras",
+    "lowPressure": "Tekanan Rendah"
+  },
+  "feelsLike": "Terasa seperti",
+  "trends": {
+    "up": "Naik",
+    "down": "Turun",
+    "stable": "Stabil"
+  }
+}
