@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { STORAGE_KEYS } from '@/config/constants';
 
+
 interface UseOnboardingReturn {
   hasCompletedOnboarding: boolean;
   markOnboardingComplete: () => void;
@@ -20,29 +21,26 @@ interface UseOnboardingReturn {
 }
 
 export function useOnboarding(totalSteps: number = 4): UseOnboardingReturn {
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useLocalStorage<boolean>(
-    STORAGE_KEYS.ONBOARDING_COMPLETE,
+  const [storedOnboarding, setHasCompletedOnboarding] = useLocalStorage<boolean>(
+    STORAGE_KEYS.ONBOARDING,
     false
   );
+
+  const hasCompletedOnboarding = storedOnboarding ?? false;
   const [currentStep, setCurrentStep] = useState(0);
   const [isFirstVisit, setIsFirstVisit] = useState(false);
 
   useEffect(() => {
-    // Check if this is user's first visit
-    if (!hasCompletedOnboarding) {
-      setIsFirstVisit(true);
-    }
+    setIsFirstVisit(!hasCompletedOnboarding);
   }, [hasCompletedOnboarding]);
 
   const markOnboardingComplete = () => {
     setHasCompletedOnboarding(true);
-    setIsFirstVisit(false);
   };
 
   const resetOnboarding = () => {
     setHasCompletedOnboarding(false);
     setCurrentStep(0);
-    setIsFirstVisit(true);
   };
 
   const nextStep = () => {

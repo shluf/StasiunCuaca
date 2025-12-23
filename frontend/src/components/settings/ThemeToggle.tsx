@@ -3,7 +3,7 @@ import { useTranslation } from '@/i18n';
 import clsx from 'clsx';
 
 export function ThemeToggle() {
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
   const { t } = useTranslation('settings');
 
   return (

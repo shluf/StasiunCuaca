@@ -29,6 +29,9 @@ func main() {
 
 	cfg := config.LoadConfig()
 
+	// Initialize Cloudinary
+	config.InitCloudinary()
+
 	// Open database connection
 	gormDB, err := db.InitDB(cfg)
 	if err != nil {
@@ -36,7 +39,7 @@ func main() {
 	}
 
 	// Auto migrate
-	if err := gormDB.AutoMigrate(&entity.SensorData{}); err != nil {
+	if err := gormDB.AutoMigrate(&entity.SensorData{}, &entity.User{}, &entity.News{}); err != nil {
 		log.Fatalf("automigrate: %v", err)
 	}
 	log.Println("Database migration completed")
@@ -49,7 +52,17 @@ func main() {
 	// Wire up repository -> usecase -> handler
 	repo := model.NewDataRepo(gormDB)
 	uc := usecase.NewDataUsecase(repo)
-	handler := deliver.NewHandler(uc, hub)
+
+	// Auth components
+	userRepo := model.NewUserRepo(gormDB)
+	authUc := usecase.NewAuthUsecase(userRepo)
+
+	// News components
+	newsRepo := model.NewNewsRepo(gormDB)
+	newsUc := usecase.NewNewsUsecase(newsRepo)
+
+	// Unified Handler
+	handler := deliver.NewHandler(uc, authUc, newsUc, hub)
 
 	// Initialize MQTT client
 	broker := os.Getenv("MQTT_BROKER")

@@ -1,0 +1,65 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: stasiuncuaca-db
+    restart: unless-stopped
+    env_file:
+      - ./docker/env/.env.postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - stasiuncuaca-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Go Application
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: stasiuncuaca-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./docker/env/.env.backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - stasiuncuaca-network
+
+  # Frontend React Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=http://localhost:3000
+        - VITE_SOCKET_URL=ws://localhost:3000/ws
+    container_name: stasiuncuaca-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    env_file:
+      - ./docker/env/.env.frontend
+    volumes:
+      - ./frontend/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - stasiuncuaca-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  stasiuncuaca-network:
+    driver: bridge

@@ -1,0 +1,17 @@
+{
+  "title": "Riwayat Cuaca",
+  "subtitle": "Data kaanan cuaca ing jaman biyen",
+  "searchPlaceholder": "Goleki miturut tanggal, wektu, utawa kaanan...",
+  "showing": "Nuduhake",
+  "records": "cathetan",
+  "found": "Ketemu",
+  "results": "asil panelusuran",
+  "temperature": "Suhu",
+  "humidity": "Kalemman",
+  "pressure": "Tekanan",
+  "wind": "Angin",
+  "rainfall": "Udan",
+  "noResults": "Ora Ketemu",
+  "tryDifferentSearch": "Coba tembung kunci panelusuran liyane",
+  "recentReadings": "Wacan Paling Anyar"
+}

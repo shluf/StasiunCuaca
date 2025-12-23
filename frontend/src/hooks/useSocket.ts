@@ -51,7 +51,8 @@ export function useSocket() {
       socketService.off('connection', handleConnection);
       socketService.off('error', handleError);
       socketService.off('reconnecting', handleReconnecting);
-      socketService.disconnect();
+      // Do not disconnect on unmount to separate page lifecycle from socket lifecycle
+      // socketService.disconnect();
     };
   }, []);
 

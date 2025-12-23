@@ -32,7 +32,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'socket-vendor': ['socket.io-client'],
           'axios-vendor': ['axios'],
           'i18n-vendor': ['i18next', 'react-i18next'],
           'chart-vendor': ['recharts'],

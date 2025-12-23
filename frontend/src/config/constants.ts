@@ -3,7 +3,7 @@ export const APP_VERSION = '1.0.0';
 
 // API Configuration
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'ws://localhost:3000';
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'ws://localhost:3000/ws';
 export const WEATHER_API_URL = import.meta.env.VITE_WEATHER_API_URL || 'https://api.openweathermap.org/data/2.5';
 export const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY || '';
 
@@ -24,6 +24,7 @@ export const STORAGE_KEYS = {
   FONT_SIZE: 'stasiun-cuaca-font-size',
   ONBOARDING: 'stasiun-cuaca-onboarding',
   ONBOARDING_COMPLETE: 'stasiun-cuaca-onboarding-complete',
+  FEATURE_TOUR_COMPLETE: 'stasiun-cuaca-feature-tour-complete',
   SETTINGS: 'stasiun-cuaca-settings',
 } as const;
 

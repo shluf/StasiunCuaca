@@ -1,0 +1,17 @@
+{
+  "title": "Riwayat Cuaca",
+  "subtitle": "Data historis kondisi cuaca",
+  "searchPlaceholder": "Cari berdasarkan tanggal, waktu, atau kondisi...",
+  "showing": "Menampilkan",
+  "records": "catatan",
+  "found": "Ditemukan",
+  "results": "hasil pencarian",
+  "temperature": "Suhu",
+  "humidity": "Kelembapan",
+  "pressure": "Tekanan",
+  "wind": "Angin",
+  "rainfall": "Hujan",
+  "noResults": "Tidak Ada Hasil",
+  "tryDifferentSearch": "Coba kata kunci pencarian yang berbeda",
+  "recentReadings": "Bacaan Terkini"
+}

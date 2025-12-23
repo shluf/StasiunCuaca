@@ -1,273 +1,173 @@
+/**
+ * Dashboard Page
+ * Main weather monitoring dashboard with real-time sensor data
+ * Features green theme, expandable forecast drawer, and professional SVG icons
+ */
+
 import { useSensorData } from '@/hooks/useSensorData';
-import { useTranslation } from '@/i18n';
-import { WeatherCard, SensorGrid, AlertBanner } from '@/components/weather';
-import type { WeatherAlert } from '@/components/weather';
-import { SkeletonWeatherCard, SkeletonSensorGrid } from '@/components/common';
-import { SettingsPanel } from '@/components/settings';
-import { notificationService } from '@/services/notification/notificationService';
-import { ALERT_THRESHOLDS } from '@/config/sensorConfig';
-import { useEffect, useState } from 'react';
+import { TemperatureIcon, HumidityIcon, WindIcon, PressureIcon, RainfallIcon, AirQualityIcon } from '@/components/icons';
+import { ForecastDrawer } from '@/components/drawer';
+import { ThemeToggleButton } from '@/components/common';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
-export function Dashboard() {
-  const { t } = useTranslation('dashboard');
-  const { data, metadata, isLoading, error, isConnected } = useSensorData();
-  const [alerts, setAlerts] = useState<WeatherAlert[]>([]);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+interface SensorCardProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  unit: string;
+}
 
-  // Generate weather alerts based on sensor data
-  useEffect(() => {
-    if (!data) return;
+function SensorCard({ icon, label, value, unit }: SensorCardProps) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-glass-light dark:bg-gradient-glass-dark backdrop-blur-xs border border-sage-200/40 dark:border-forest-700/40 p-4 shadow-glass-light dark:shadow-glass-dark transition-all duration-300 hover:shadow-glow-sage dark:hover:shadow-glow-green">
+      {/* Icon */}
+      <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-sage-100/80 dark:bg-forest-800/80 text-forest-700 dark:text-mint-400 mb-3">
+        {icon}
+      </div>
 
-    const newAlerts: WeatherAlert[] = [];
+      {/* Label */}
+      <div className="text-xs font-medium text-sage-700 dark:text-sage-300 mb-1">
+        {label}
+      </div>
 
-    // Temperature alerts
-    if (data.temperature > ALERT_THRESHOLDS.temperature.hot) {
-      newAlerts.push({
-        id: 'temp-hot',
-        severity: 'danger',
-        title: t('alerts.highTemperature'),
-        message: `${t('sensors.temperature')}: ${data.temperature.toFixed(1)}°C`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    } else if (data.temperature < ALERT_THRESHOLDS.temperature.cold) {
-      newAlerts.push({
-        id: 'temp-cold',
-        severity: 'warning',
-        title: t('alerts.lowTemperature'),
-        message: `${t('sensors.temperature')}: ${data.temperature.toFixed(1)}°C`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    }
-
-    // Humidity alerts
-    if (data.humidity > ALERT_THRESHOLDS.humidity.high) {
-      newAlerts.push({
-        id: 'humidity-high',
-        severity: 'warning',
-        title: t('alerts.highHumidity'),
-        message: `${t('sensors.humidity')}: ${data.humidity.toFixed(0)}%`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    }
-
-    // CO2 alerts
-    if (data.co2 > ALERT_THRESHOLDS.co2.danger) {
-      newAlerts.push({
-        id: 'co2-danger',
-        severity: 'danger',
-        title: t('alerts.dangerCO2'),
-        message: `${t('sensors.co2')}: ${data.co2.toFixed(0)} ppm`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    } else if (data.co2 > ALERT_THRESHOLDS.co2.warning) {
-      newAlerts.push({
-        id: 'co2-warning',
-        severity: 'warning',
-        title: t('alerts.highCO2'),
-        message: `${t('sensors.co2')}: ${data.co2.toFixed(0)} ppm`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    }
-
-    // Wind alerts
-    if (data.windSpeed > ALERT_THRESHOLDS.windSpeed.danger) {
-      newAlerts.push({
-        id: 'wind-danger',
-        severity: 'danger',
-        title: t('alerts.dangerWind'),
-        message: `${t('sensors.windSpeed')}: ${data.windSpeed.toFixed(1)} m/s`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    } else if (data.windSpeed > ALERT_THRESHOLDS.windSpeed.warning) {
-      newAlerts.push({
-        id: 'wind-warning',
-        severity: 'warning',
-        title: t('alerts.strongWind'),
-        message: `${t('sensors.windSpeed')}: ${data.windSpeed.toFixed(1)} m/s`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    }
-
-    // Rainfall alerts
-    if (data.rainfall > ALERT_THRESHOLDS.rainfall.heavy) {
-      newAlerts.push({
-        id: 'rain-heavy',
-        severity: 'danger',
-        title: t('alerts.veryHeavyRain'),
-        message: `${t('sensors.rainfall')}: ${data.rainfall.toFixed(1)} mm`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    } else if (data.rainfall > ALERT_THRESHOLDS.rainfall.moderate) {
-      newAlerts.push({
-        id: 'rain-moderate',
-        severity: 'warning',
-        title: t('alerts.heavyRain'),
-        message: `${t('sensors.rainfall')}: ${data.rainfall.toFixed(1)} mm`,
-        timestamp: new Date(data.timestamp),
-        dismissible: true,
-      });
-    }
-
-    setAlerts(newAlerts);
-
-    // Trigger browser notifications for critical alerts
-    if (newAlerts.length > 0) {
-      notificationService.checkWeatherAlerts(data);
-    }
-  }, [data, t]);
-
-  // Connection status indicator
-  const ConnectionStatus = () => (
-    <div className="flex items-center gap-2 text-sm">
-      <div
-        className={clsx(
-          'w-2 h-2 rounded-full',
-          isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'
-        )}
-      />
-      <span className="text-gray-600 dark:text-gray-400">
-        {isConnected ? 'Terhubung' : 'Terputus'}
-      </span>
+      {/* Value */}
+      <div className="flex items-baseline gap-1">
+        <span className="text-2xl font-bold font-display text-forest-900 dark:text-forest-50">
+          {value}
+        </span>
+        <span className="text-sm text-sage-600 dark:text-sage-400">
+          {unit}
+        </span>
+      </div>
     </div>
   );
+}
 
-  // Error state
-  if (error && !data) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('noData')}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">{error}</p>
-        </div>
-      </div>
-    );
-  }
+export function Dashboard() {
+  const { t } = useTranslation('common');
+  const { data, metadata, isLoading, error, isConnected } = useSensorData();
 
-  // Loading state
-  if (isLoading && !data) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
-          {/* Header Skeleton */}
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 animate-pulse" />
-
-          {/* Weather Card Skeleton */}
-          <SkeletonWeatherCard />
-
-          {/* Sensor Grid Skeleton */}
-          <SkeletonSensorGrid count={6} />
-        </div>
-      </div>
-    );
-  }
-
-  // Main content
+  // Main content wrapper
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              {t('title')}
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {t('currentWeather')} • {metadata?.location || 'Stasiun Cuaca'}
-            </p>
-          </div>
+    <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark pb-48">
+      {/* Theme Toggle - Fixed Top Right */}
+      <div className="fixed top-4 right-4 z-30 animate-fade-in">
+        <ThemeToggleButton />
+      </div>
 
-          <div className="flex items-center gap-4">
-            <ConnectionStatus />
-
-            {/* Settings Button */}
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="p-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-all shadow-sm hover:shadow"
-              aria-label="Pengaturan"
-              title="Pengaturan"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Weather Alerts */}
-        {alerts.length > 0 && (
-          <AlertBanner
-            alerts={alerts}
-            onDismiss={(id) => setAlerts((prev) => prev.filter((a) => a.id !== id))}
-          />
-        )}
-
-        {/* Main Weather Card */}
-        {data && (
-          <WeatherCard
-            data={data}
-            location={metadata?.location}
-            showDetails
-            variant="hero"
-          />
-        )}
-
-        {/* Sensor Grid */}
-        {data && (
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              {t('sensorData')}
-            </h2>
-            <SensorGrid
-              sensors={[
-                { type: 'temperature', value: data.temperature },
-                { type: 'humidity', value: data.humidity },
-                { type: 'pressure', value: data.pressure },
-                { type: 'altitude', value: data.altitude },
-                { type: 'co2', value: data.co2 },
-                { type: 'windSpeed', value: data.windSpeed },
-                { type: 'windDirection', value: data.windDirection },
-                { type: 'rainfall', value: data.rainfall },
-                { type: 'voltage', value: data.voltage },
-                { type: 'current', value: data.current },
-              ]}
-              variant="default"
-              showTrend={false}
-              columns={3}
-            />
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+        {/* Loading State */}
+        {isLoading && !data && (
+          <div className="space-y-4">
+            {/* Skeleton cards */}
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-32 bg-white/60 dark:bg-white/5 rounded-2xl animate-pulse" />
+            ))}
           </div>
         )}
 
-        {/* Last Update */}
-        {data && (
-          <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-            {t('lastUpdate')}: {new Date(data.timestamp).toLocaleString('id-ID')}
+        {/* Error State */}
+        {error && !data && (
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="text-center bg-white/80 dark:bg-forest-900/80 backdrop-blur-md rounded-3xl p-8 shadow-glass-light dark:shadow-glass-dark max-w-md">
+              <div className="text-5xl mb-4">
+                <svg className="w-16 h-16 mx-auto text-forest-700 dark:text-mint-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">
+                {t('dashboard.noData')}
+              </h2>
+              <p className="text-sage-700 dark:text-sage-300">{error}</p>
+            </div>
           </div>
+        )}
+
+        {/* Data State */}
+        {!isLoading && !error && data && (
+          <>
+            {/* Header */}
+            <div className="text-center mb-8 animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">
+                {metadata?.location || t('app.name')}
+              </h1>
+              <div className="flex items-center justify-center gap-2 text-sm">
+                <div
+                  className={clsx(
+                    'w-2 h-2 rounded-full',
+                    isConnected ? 'bg-mint-500 animate-pulse-soft shadow-glow-green' : 'bg-red-500'
+                  )}
+                />
+                <span className="text-sage-700 dark:text-sage-300 font-body">
+                  {isConnected ? t('dashboard.connected') : t('dashboard.disconnected')}
+                </span>
+              </div>
+            </div>
+
+            {/* Main Temperature Card */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-glass-light dark:bg-gradient-glass-dark backdrop-blur-md border border-sage-200/40 dark:border-forest-700/40 p-8 shadow-glass-light dark:shadow-glass-dark mb-6 animate-scale-in" data-tour="weather-card">
+              {/* Background decoration */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-sage-400/10 dark:bg-mint-500/10 rounded-full blur-3xl -z-10" />
+
+              <div className="text-center">
+                <div className="text-7xl sm:text-8xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2 min-h-[6rem]">
+                  {data ? `${data.temperature.toFixed(1)}°` : '--°'}
+                </div>
+                <div className="text-xl text-sage-700 dark:text-sage-300 font-body">
+                  {t('dashboard.realtimeTemp')}
+                </div>
+                <div className="text-sm text-sage-600 dark:text-sage-400 mt-2 font-body">
+                  {t('dashboard.lastUpdated')} {data ? new Date(data.timestamp).toLocaleTimeString() : '--:--:--'}
+                </div>
+              </div>
+            </div>
+
+            {/* Sensor Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 animate-slide-up" data-tour="sensors-grid">
+              <SensorCard
+                icon={<HumidityIcon className="w-6 h-6" />}
+                label={t('dashboard.humidity')}
+                value={data ? data.humidity.toFixed(0) : '--'}
+                unit="%"
+              />
+              <SensorCard
+                icon={<PressureIcon className="w-6 h-6" />}
+                label={t('dashboard.pressure')}
+                value={data ? data.pressure.toFixed(0) : '--'}
+                unit="hPa"
+              />
+              <SensorCard
+                icon={<WindIcon className="w-6 h-6" />}
+                label={t('dashboard.windSpeed')}
+                value={data ? data.windSpeed.toFixed(1) : '--'}
+                unit="m/s"
+              />
+              <SensorCard
+                icon={<RainfallIcon className="w-6 h-6" />}
+                label={t('dashboard.rainfall')}
+                value={data ? data.rainfall.toFixed(1) : '--'}
+                unit="mm"
+              />
+              <SensorCard
+                icon={<AirQualityIcon className="w-6 h-6" />}
+                label={t('dashboard.co2')}
+                value={data ? data.co2.toFixed(0) : '--'}
+                unit="ppm"
+              />
+              <SensorCard
+                icon={<TemperatureIcon className="w-6 h-6" />}
+                label={t('dashboard.altitude')}
+                value={data ? data.altitude.toFixed(0) : '--'}
+                unit="m"
+              />
+            </div>
+          </>
         )}
       </div>
 
-      {/* Settings Panel */}
-      <SettingsPanel isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      {/* Forecast Drawer - Expandable from bottom - Always rendered now */}
+      <ForecastDrawer />
     </div>
   );
 }

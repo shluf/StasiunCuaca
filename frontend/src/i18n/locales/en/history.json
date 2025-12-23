@@ -1,0 +1,17 @@
+{
+  "title": "Weather History",
+  "subtitle": "Historical weather condition data",
+  "searchPlaceholder": "Search by date, time, or condition...",
+  "showing": "Showing",
+  "records": "records",
+  "found": "Found",
+  "results": "search results",
+  "temperature": "Temperature",
+  "humidity": "Humidity",
+  "pressure": "Pressure",
+  "wind": "Wind",
+  "rainfall": "Rainfall",
+  "noResults": "No Results Found",
+  "tryDifferentSearch": "Try a different search keyword",
+  "recentReadings": "Recent Readings"
+}

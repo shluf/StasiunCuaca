@@ -18,7 +18,7 @@ export function NotificationToggle() {
   const handleToggle = async () => {
     if (!notificationsEnabled && Notification.permission === 'default') {
       // Request permission first
-      const granted = await notificationService.requestNotificationPermission();
+      const granted = await notificationService.requestPermission();
       if (granted) {
         setPermission('granted');
         toggleNotifications();

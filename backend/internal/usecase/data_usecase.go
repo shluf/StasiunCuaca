@@ -11,6 +11,8 @@ type DataRepository interface {
 	GetLatestData() (*entity.SensorData, error)
 	GetDataByTimeRange(start, end time.Time) ([]entity.SensorData, error)
 	GetDataByLimit(limit int) ([]entity.SensorData, error)
+	GetAggregatedData(interval string, start, end time.Time) ([]entity.AggregatedData, error)
+	GetDataInsights() (*entity.DataInsights, error)
 }
 
 type DataUsecase struct {
@@ -39,4 +41,12 @@ func (uc *DataUsecase) GetDataByTimeRange(start, end time.Time) ([]entity.Sensor
 
 func (uc *DataUsecase) GetDataByLimit(limit int) ([]entity.SensorData, error) {
 	return uc.repo.GetDataByLimit(limit)
+}
+
+func (uc *DataUsecase) GetAggregatedData(interval string, start, end time.Time) ([]entity.AggregatedData, error) {
+	return uc.repo.GetAggregatedData(interval, start, end)
+}
+
+func (uc *DataUsecase) GetDataInsights() (*entity.DataInsights, error) {
+	return uc.repo.GetDataInsights()
 }

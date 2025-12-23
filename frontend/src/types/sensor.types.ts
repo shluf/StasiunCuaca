@@ -4,6 +4,7 @@
  */
 
 export interface SensorReading {
+  id?: number; // Optional ID from backend
   timestamp: string; // ISO 8601 format
   temperature: number; // °C (suhu)
   humidity: number; // % (lembap)
@@ -35,4 +36,16 @@ export interface SensorHistory {
   start: string;
   end: string;
   count: number;
+}
+
+export interface DataInsights {
+  minTemp: number;
+  maxTemp: number;
+  avgTemp: number;
+  minHum: number;
+  maxHum: number;
+  avgHum: number;
+  prevMonthDiff: number;
+  peakHour: number;
+  peakHourAvg: number;
 }

@@ -1,3 +1,8 @@
+/**
+ * Common Components Barrel Export
+ * Centralized exports for all common UI components
+ */
+
 // Button
 export { Button } from './Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './Button';
@@ -26,3 +31,6 @@ export type { SliderProps, RangeSliderProps } from './Slider';
 // Spinner
 export { Spinner, LoadingOverlay, FullPageLoading } from './Spinner';
 export type { SpinnerProps, SpinnerSize, SpinnerVariant, LoadingOverlayProps, FullPageLoadingProps } from './Spinner';
+
+// Theme Toggle Button
+export { ThemeToggleButton } from './ThemeToggleButton';

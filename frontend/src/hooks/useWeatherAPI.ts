@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { getCurrentWeather, getWeatherForecast } from '@/services/api/weatherAPI';
-import type { WeatherCurrent, WeatherForecast } from '@/types/weather.types';
+import type { WeatherCurrent, WeatherForecast } from '@/services/api/weatherAPI';
 import { DEFAULT_LOCATION } from '@/config/apiConfig';
 import { UPDATE_INTERVALS } from '@/config/constants';
 

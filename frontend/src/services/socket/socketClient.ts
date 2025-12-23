@@ -3,7 +3,7 @@
  * Real-time sensor data communication
  */
 
-import { SOCKET_CONFIG, SOCKET_EVENTS } from '@config/socketConfig';
+import { SOCKET_CONFIG } from '@config/socketConfig';
 import type { SensorReading, SensorMetadata } from '@/types/sensor.types';
 import type { SocketError, HistoryRequest, SocketConnectionState } from '@/types/socket.types';
 
@@ -16,8 +16,8 @@ class SocketService {
   };
   private listeners: Map<string, Function[]> = new Map();
   private reconnectAttempts = 0;
-  private reconnectTimer: NodeJS.Timeout | null = null;
-  private heartbeatInterval: NodeJS.Timeout | null = null;
+  private reconnectTimer: number | null = null;
+  private heartbeatInterval: number | null = null;
 
   /**
    * Initialize WebSocket connection
@@ -28,12 +28,25 @@ class SocketService {
       return;
     }
 
+    if (this.socket?.readyState === WebSocket.CONNECTING) {
+      console.log('[WebSocket] Connection already in progress');
+      return;
+    }
+
     try {
       const wsUrl = SOCKET_CONFIG.url.replace(/^http/, 'ws');
       console.log('[WebSocket] Connecting to:', wsUrl);
 
       this.socket = new WebSocket(wsUrl);
       this.setupEventListeners();
+
+      // Add connection timeout
+      setTimeout(() => {
+        if (this.socket?.readyState === WebSocket.CONNECTING) {
+          console.warn('[WebSocket] Connection timeout - closing and retrying');
+          this.socket.close();
+        }
+      }, 10000); // 10s timeout
     } catch (error) {
       console.error('[WebSocket] Connection error:', error);
       this.connectionState.error = 'Failed to initialize connection';
