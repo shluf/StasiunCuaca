@@ -67,43 +67,4 @@ export function useWeatherAPI(
   };
 }
 
-// Hook for just current weather (lighter)
-export function useCurrentWeather(
-  lat: number = DEFAULT_LOCATION.lat,
-  lon: number = DEFAULT_LOCATION.lon
-) {
-  const [current, setCurrent] = useState<WeatherCurrent | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchCurrent = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getCurrentWeather(lat, lon);
-        if (mounted) {
-          setCurrent(data);
-          setError(null);
-        }
-      } catch (err) {
-        if (mounted) {
-          setError(err instanceof Error ? err.message : 'Failed to fetch weather');
-        }
-      } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchCurrent();
-
-    return () => {
-      mounted = false;
-    };
-  }, [lat, lon]);
-
-  return { current, isLoading, error };
-}

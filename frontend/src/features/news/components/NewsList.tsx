@@ -29,18 +29,15 @@ export function NewsList({ news, onSelectNews, isFirstPage = false }: NewsListPr
                     <div
                         key={item.id}
                         onClick={() => onSelectNews(item)}
-                        className={`bg-white/70 dark:bg-forest-900/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-glass-light dark:shadow-glass-dark border border-sage-200/50 dark:border-forest-700/50 hover:scale-[1.01] transition-all duration-300 cursor-pointer ${isFeatured ? 'md:col-span-2' : ''}`}
+                        className={`bg-white/70 dark:bg-forest-900/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-glass-light dark:shadow-glass-dark border border-sage-200/50 dark:border-forest-700/50 hover:scale-[1.01] transition-all duration-300 cursor-pointer animate-scale-in ${isFeatured ? 'md:col-span-2' : ''}`}
                     >
                         {item.banner_photo && (
                             <div className={`${isFeatured ? 'h-64 md:h-80' : 'h-48'} overflow-hidden relative`}>
                                 <img
                                     src={item.banner_photo}
                                     alt={item.title}
-                                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-500 [mask-image:linear-gradient(to_bottom,black,transparent)]"
                                 />
-                                {isFeatured && (
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none md:hidden" />
-                                )}
                             </div>
                         )}
                         <div className="p-4 relative">

@@ -21,12 +21,11 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 safe-area-bottom pointer-events-none">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 safe-area-bottom pointer-events-none">
       <div className="bg-white/90 dark:bg-forest-900/90 backdrop-blur-xl border-t border-sage-200/40 dark:border-forest-700/40 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.2)] pointer-events-auto pb-safe">
         <div className="max-w-md mx-auto px-4 h-16">
           <div className="grid grid-cols-5 h-full items-center relative">
 
-            {/* News Button - Col 1 */}
             {/* News Button - Col 1 */}
             <button
               onClick={() => handleNavigation('/article')}

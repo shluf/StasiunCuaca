@@ -5,6 +5,7 @@
  */
 
 // Navigation Icons
+export { HomeIcon } from './HomeIcon';
 export { BellIcon } from './BellIcon';
 export { ListIcon } from './ListIcon';
 export { SettingsIcon } from './SettingsIcon';

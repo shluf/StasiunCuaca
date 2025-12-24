@@ -3,7 +3,7 @@
  * Socket.io connection and event management
  */
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import socketService from '@/services/socket/socketClient';
 import type { SensorReading, SensorMetadata } from '@/types/sensor.types';
 import type { SocketConnectionState } from '@/types/socket.types';
@@ -51,24 +51,12 @@ export function useSocket() {
       socketService.off('connection', handleConnection);
       socketService.off('error', handleError);
       socketService.off('reconnecting', handleReconnecting);
-      // Do not disconnect on unmount to separate page lifecycle from socket lifecycle
-      // socketService.disconnect();
     };
-  }, []);
-
-  const subscribe = useCallback(() => {
-    socketService.subscribeToSensors();
-  }, []);
-
-  const unsubscribe = useCallback(() => {
-    socketService.unsubscribeFromSensors();
   }, []);
 
   return {
     connectionState,
     isConnected: connectionState.connected,
-    subscribe,
-    unsubscribe,
     socketService,
   };
 }

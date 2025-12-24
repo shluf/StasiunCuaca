@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSocket } from './useSocket';
 import socketService from '@/services/socket/socketClient';
 import type { SensorReading, SensorMetadata } from '@/types/sensor.types';
+import axios from 'axios';
 
 interface UseSensorDataReturn {
   data: SensorReading | null;
@@ -28,8 +29,6 @@ export function useSensorData(): UseSensorDataReturn {
       return;
     }
 
-    // Subscribe to sensor updates when connected
-    socketService.subscribeToSensors();
     setIsLoading(true);
 
     // Listen for sensor data updates
@@ -58,7 +57,6 @@ export function useSensorData(): UseSensorDataReturn {
       socketService.off('sensor:update', handleUpdate);
       socketService.off('sensor:status', handleStatus);
       socketService.off('sensor:error', handleError);
-      socketService.unsubscribeFromSensors();
     };
   }, [isConnected]);
 
@@ -72,10 +70,7 @@ export function useSensorData(): UseSensorDataReturn {
 }
 
 // Hook for historical sensor data
-// Hook for historical sensor data
-import axios from 'axios';
 
-// Hook for historical sensor data
 export function useSensorHistory(startDate?: string, endDate?: string, interval: string = 'raw') {
   const [history, setHistory] = useState<SensorReading[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +87,6 @@ export function useSensorHistory(startDate?: string, endDate?: string, interval:
       setError(null);
 
       try {
-        // Construct URL with query params
         // Backend expects ISO 8601 strings
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/data/history`, {
           params: {

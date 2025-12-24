@@ -11,7 +11,7 @@ import paho.mqtt.client as mqtt
 from datetime import datetime
 
 # MQTT Configuration
-MQTT_BROKER = "broker.hivemq.com"
+MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 MQTT_TOPIC = "sensors/ewsbe"
 MQTT_CLIENT_ID = "stasiuncuaca-publisher-dummy"

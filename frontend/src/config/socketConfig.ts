@@ -8,11 +8,6 @@ export const SOCKET_CONFIG = {
 };
 
 export const SOCKET_EVENTS = {
-  // Client to Server
-  SUBSCRIBE: 'sensor:subscribe',
-  UNSUBSCRIBE: 'sensor:unsubscribe',
-  REQUEST_HISTORY: 'sensor:request-history',
-
   // Server to Client
   UPDATE: 'sensor:update',
   STATUS: 'sensor:status',

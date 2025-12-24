@@ -29,7 +29,7 @@ export function SettingsView() {
                     <h1 className="text-3xl font-bold font-display text-forest-900 dark:text-forest-50 mb-6 text-center">
                         {t('settingsTitle')}
                     </h1>
-                    <p className="text-sage-700 dark:text-sage-300 font-body">
+                    <p className="text-sage-700 dark:text-sage-300 font-body text-center">
                         {t('settingsDescription')}
                     </p>
                 </header>

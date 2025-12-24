@@ -10,11 +10,6 @@ export interface SocketEvents {
   'sensor:status': (status: SensorMetadata) => void;
   'sensor:error': (error: SocketError) => void;
   'sensor:history': (data: { readings: SensorReading[] }) => void;
-
-  // Client to Server Events
-  'sensor:subscribe': () => void;
-  'sensor:unsubscribe': () => void;
-  'sensor:request-history': (params: HistoryRequest) => void;
 }
 
 export interface SocketError {

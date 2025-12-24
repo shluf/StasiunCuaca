@@ -26,6 +26,8 @@ export const STORAGE_KEYS = {
   ONBOARDING_COMPLETE: 'stasiun-cuaca-onboarding-complete',
   FEATURE_TOUR_COMPLETE: 'stasiun-cuaca-feature-tour-complete',
   SETTINGS: 'stasiun-cuaca-settings',
+  SIDEBAR_COLLAPSED: 'stasiun-cuaca-sidebar-collapsed',
+  FORECAST_OPEN: 'stasiun-cuaca-forecast-open',
 } as const;
 
 // Breakpoints (matching Tailwind config)

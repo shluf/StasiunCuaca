@@ -8,8 +8,6 @@ import { useTranslation } from '@/i18n';
 import { SearchIcon, TemperatureIcon, HumidityIcon, WindIcon, RainfallIcon, CalendarIcon, PressureIcon, AirQualityIcon } from '@/components/icons';
 import clsx from 'clsx';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -19,7 +17,7 @@ import {
   AreaChart
 } from 'recharts';
 import { useSensorHistory, useSensorInsights } from '@/hooks/useSensorData';
-import { format, subDays, startOfHour, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
+import { format, subDays, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
 import { id, enUS } from 'date-fns/locale';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -60,14 +58,14 @@ export function WeatherHistory() {
   const [isSensorDropdownOpen, setIsSensorDropdownOpen] = useState(false);
 
   // Fetch History Data
-  const { history: data, isLoading, error } = useSensorHistory(
+  const { history: data, isLoading } = useSensorHistory(
     startDate ? new Date(startDate).toISOString() : undefined,
     endDate ? new Date(endDate).toISOString() : undefined,
     aggregationInterval
   );
 
   // Fetch Insights
-  const { insights, isLoading: isLoadingInsights } = useSensorInsights();
+  const { insights } = useSensorInsights();
 
   // Sensor Configurations
   const sensorConfigs: SensorConfig[] = [

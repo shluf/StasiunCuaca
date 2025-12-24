@@ -4,38 +4,94 @@ import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 // @ts-ignore
 import remarkBreaks from 'remark-breaks';
+import { useTranslation } from 'react-i18next';
 
 import { ChevronLeftIcon } from '@/components/icons';
 
 interface NewsDetailProps {
     news: NewsItem;
     onBack: () => void;
+    isLoggedIn?: boolean;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
-export function NewsDetail({ news, onBack }: NewsDetailProps) {
+export function NewsDetail({ news, onBack, isLoggedIn, onEdit, onDelete }: NewsDetailProps) {
+    const { t } = useTranslation('common');
+
     return (
         <div className="pb-24 animate-fade-in text-left">
-            <button
-                onClick={onBack}
-                className="mb-6 group bg-white dark:bg-forest-900 rounded-xl p-3 shadow-sm border border-sage-100 dark:border-forest-700 hover:shadow-md hover:border-forest-300 dark:hover:border-forest-500 transition-all duration-300 flex items-center justify-center w-12 h-12"
-                aria-label="Back to News"
-            >
-                <ChevronLeftIcon className="w-6 h-6 text-forest-600 dark:text-mint-400 group-hover:text-forest-800 dark:group-hover:text-mint-300 transition-colors" />
-            </button>
+            {/* Navigation Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={onBack}
+                        className="group bg-white dark:bg-forest-900 rounded-xl p-3 shadow-sm border border-sage-100 dark:border-forest-700 hover:shadow-md hover:border-forest-300 dark:hover:border-forest-500 transition-all duration-300 flex items-center justify-center w-12 h-12"
+                        aria-label="Back to News"
+                    >
+                        <ChevronLeftIcon className="w-6 h-6 text-forest-600 dark:text-mint-400 group-hover:text-forest-800 dark:group-hover:text-mint-300 transition-colors" />
+                    </button>
 
-            <article className="bg-white dark:bg-forest-900 rounded-2xl overflow-hidden shadow-sm border border-sage-100 dark:border-forest-700">
+                    {/* Breadcrumb */}
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                        <button
+                            onClick={onBack}
+                            className="text-sage-500 dark:text-sage-400 hover:text-forest-600 dark:hover:text-mint-400 transition-colors"
+                        >
+                            {t('news.title')}
+                        </button>
+                        <span className="text-sage-300 dark:text-forest-700">/</span>
+                        <span className="text-forest-900 dark:text-forest-50 truncate max-w-[200px] md:max-w-md">
+                            {news.title}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Actions */}
+                {isLoggedIn && (
+                    <div className="flex items-center justify-center gap-3">
+                        <button
+                            onClick={onEdit}
+                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-forest-700 bg-forest-50 hover:bg-forest-100 dark:text-forest-100 dark:bg-forest-800 dark:hover:bg-forest-700 rounded-xl transition-all border border-forest-200 dark:border-forest-600 shadow-sm"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                            {t('common.edit')}
+                        </button>
+                        <button
+                            onClick={onDelete}
+                            className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-red-700 bg-red-50 hover:bg-red-100 dark:text-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 rounded-xl transition-all border border-red-200 dark:border-red-800 shadow-sm"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {t('common.delete')}
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            <article className="bg-white dark:bg-forest-900 rounded-t-2xl rounded-b-none overflow-hidden shadow-sm border-x border-t border-b-0 border-sage-100 dark:border-forest-700 [mask-image:linear-gradient(to_bottom,black_calc(100%-140px),transparent)] pb-12">
                 {news.banner_photo && (
-                    <div className="w-full h-64 md:h-80 overflow-hidden">
+                    <div className="w-full h-64 md:h-96 overflow-hidden relative group">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
                         <img
                             src={news.banner_photo}
                             alt={news.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
+                        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            {/* Optional: Overlay title here if desired, but sticking to request */}
+                        </div>
                     </div>
                 )}
 
-                <div className="p-6 md:p-8">
-                    <header className="mb-6 border-b border-sage-100 dark:border-forest-700 pb-6">
+                <div className="p-6 md:p-8 relative">
+                    {/* Decorative Top Line */}
+                    <div className="w-16 h-1 bg-forest-500 dark:bg-mint-500 mb-6 rounded-none" />
+
+                    <header className="mb-8 border-b border-sage-100 dark:border-forest-700 pb-8">
                         <h1 className="text-2xl md:text-3xl font-bold text-forest-900 dark:text-forest-50 mb-4">
                             {news.title}
                         </h1>
@@ -74,7 +130,7 @@ export function NewsDetail({ news, onBack }: NewsDetailProps) {
                         prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
                         prose-code:font-mono prose-code:text-sm
                         prose-pre:bg-forest-900 prose-pre:text-sage-100 prose-pre:p-4 prose-pre:rounded-xl
-                        prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-8">
+                        prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-8 relative z-10 pb-4">
                         <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                             {news.content}
                         </ReactMarkdown>

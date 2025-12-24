@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { GlobeIcon } from '@/components/icons';
 
 interface OnboardingStep {
-  id: string; // Added ID for logic
+  id: string;
   title: string;
   description: string;
   icon: string | React.ReactNode;
@@ -14,7 +14,7 @@ interface OnboardingStep {
 
 // Define onboarding steps with translations
 const getSteps = (language: string): OnboardingStep[] => {
-  const commonColor = 'from-forest-500 to-sage-400';
+
 
   const steps: OnboardingStep[] = [
     {
@@ -140,7 +140,7 @@ const getSteps = (language: string): OnboardingStep[] => {
 
 export function Onboarding() {
   const { hasCompletedOnboarding, currentStep, nextStep, prevStep, markOnboardingComplete } =
-    useOnboarding(5); // Increased to 5 steps
+    useOnboarding(5);
   const { language, setLanguage } = useLanguage();
 
   const steps = getSteps(language);

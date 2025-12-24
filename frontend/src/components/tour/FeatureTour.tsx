@@ -3,7 +3,7 @@
  * Interactive tour guide for dashboard features
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFeatureTour } from '@/hooks/useFeatureTour';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useOnboarding } from '@/hooks/useOnboarding';
@@ -42,164 +42,295 @@ export function FeatureTour() {
     }
   }, [hasCompletedOnboarding, hasCompletedTour, isTourActive, currentTourStep, startTour]);
 
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const getTourSteps = (): TourStep[] => {
-    if (language === 'id') {
-      return [
-        {
-          target: '[data-tour="nav-home"]',
-          title: 'Dashboard Utama',
-          description:
-            'Kembali ke halaman utama untuk melihat ringkasan cuaca dan status sensor terkini.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="sensors-grid"]',
-          title: 'Data Sensor',
-          description:
-            'Informasi rinci dari sensor IoT: Kelembaban, Tekanan, Angin, Curah Hujan, CO2, dan Ketinggian.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="forecast-drawer"]',
-          title: 'Perkiraan Cuaca',
-          description:
-            'Tarik ke atas untuk melihat perkiraan cuaca 7 hari ke depan dari Open Meteo (Pihak Ketiga).',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-news"]',
-          title: 'Berita',
-          description:
-            'Dapatkan informasi dan edukasi terbaru seputar cuaca dan lingkungan.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-history"]',
-          title: 'Riwayat',
-          description:
-            'Lihat data cuaca masa lampau untuk analisis tren.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-insights"]',
-          title: 'Analisis',
-          description:
-            'Pantau tren bulanan, indeks kenyamanan, dan peringatan dini cuaca ekstrem di sini.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-settings"]',
-          title: 'Pengaturan',
-          description:
-            'Sesuaikan tema, bahasa, dan preferensi aplikasi lainnya di menu ini.',
-          position: 'top',
-        },
-      ];
-    } else if (language === 'en') {
-      return [
-        {
-          target: '[data-tour="nav-home"]',
-          title: 'Main Dashboard',
-          description:
-            'Return to the main page to view weather summary and latest sensor status.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="sensors-grid"]',
-          title: 'Sensor Data',
-          description:
-            'Detailed info from IoT sensors: Humidity, Pressure, Wind, Rainfall, CO2, and Altitude.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="forecast-drawer"]',
-          title: 'Weather Forecast',
-          description:
-            'Pull up to see the 7-day weather forecast sourced from Open Meteo (Third Party).',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-news"]',
-          title: 'News',
-          description:
-            'Get the latest information and education about weather and environment.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-history"]',
-          title: 'History',
-          description:
-            'View past weather data for trend analysis.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-insights"]',
-          title: 'Insights',
-          description:
-            'Monitor monthly trends, comfort index, and early extreme weather warnings here.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-settings"]',
-          title: 'Settings',
-          description:
-            'Customize theme, language, and other app preferences in this menu.',
-          position: 'top',
-        },
-      ];
-    } else {
-      // Javanese
-      return [
-        {
-          target: '[data-tour="nav-home"]',
-          title: 'Dashboard Utama',
-          description:
-            'Bali menyang kaca utama kanggo ndeleng ringkesan cuaca lan status sensor paling anyar.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="sensors-grid"]',
-          title: 'Data Sensor',
-          description:
-            'Informasi rinci saka sensor IoT: Kelembaban, Tekanan, Angin, Curah Udan, CO2, lan Ketinggian.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="forecast-drawer"]',
-          title: 'Prakiraan Cuaca',
-          description:
-            'Tarik mendhuwur kanggo ndeleng prakiraan cuaca 7 dina sabanjure saka Open Meteo (Pihak Katelu).',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-news"]',
-          title: 'Warta',
-          description:
-            'Entuk informasi lan edukasi paling anyar babagan cuaca lan lingkungan.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-history"]',
-          title: 'Riwayat',
-          description:
-            'Deleng data cuaca kepungkur kanggo analisis tren.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-insights"]',
-          title: 'Analisis',
-          description:
-            'Pantau tren wulanan, indeks kenyamanan, lan peringatan dini cuaca ekstrem ing kene.',
-          position: 'top',
-        },
-        {
-          target: '[data-tour="nav-settings"]',
-          title: 'Pangaturan',
-          description:
-            'Setel tema, basa, lan preferensi aplikasi liyane ing menu iki.',
-          position: 'top',
-        },
-      ];
+    // Desktop Steps
+    if (isDesktop) {
+      if (language === 'id') {
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Dashboard Utama',
+            description: 'Kembali ke halaman utama untuk melihat ringkasan cuaca dan status sensor terkini.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Data Sensor',
+            description: 'Informasi rinci dari sensor IoT: Kelembaban, Tekanan, Angin, Curah Hujan, CO2, dan Ketinggian.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Perkiraan Cuaca',
+            description: 'Panel ini menampilkan perkiraan cuaca 7 hari ke depan dari Open Meteo (Pihak Ketiga).',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'Berita',
+            description: 'Dapatkan informasi dan edukasi terbaru seputar cuaca dan lingkungan.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'Riwayat',
+            description: 'Lihat data cuaca masa lampau untuk analisis tren.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Analisis',
+            description: 'Pantau tren bulanan, indeks kenyamanan, dan peringatan dini cuaca ekstrem di sini.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Pengaturan',
+            description: 'Sesuaikan tema, bahasa, dan preferensi aplikasi lainnya di menu ini.',
+            position: 'right',
+          },
+        ];
+      } else if (language === 'en') {
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Main Dashboard',
+            description: 'Return to the main page to view weather summary and latest sensor status.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Sensor Data',
+            description: 'Detailed info from IoT sensors: Humidity, Pressure, Wind, Rainfall, CO2, and Altitude.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Weather Forecast',
+            description: 'This panel shows the 7-day weather forecast sourced from Open Meteo (Third Party).',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'News',
+            description: 'Get the latest information and education about weather and environment.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'History',
+            description: 'View past weather data for trend analysis.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Insights',
+            description: 'Monitor monthly trends, comfort index, and early extreme weather warnings here.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Settings',
+            description: 'Customize theme, language, and other app preferences in this menu.',
+            position: 'right',
+          },
+        ];
+      } else {
+        // Javanese
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Dashboard Utama',
+            description: 'Bali menyang kaca utama kanggo ndeleng ringkesan cuaca lan status sensor paling anyar.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Data Sensor',
+            description: 'Informasi rinci saka sensor IoT: Kelembaban, Tekanan, Angin, Curah Udan, CO2, lan Ketinggian.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Prakiraan Cuaca',
+            description: 'Panel iki nampilake prakiraan cuaca 7 dina sabanjure saka Open Meteo (Pihak Katelu).',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'Warta',
+            description: 'Entuk informasi lan edukasi paling anyar babagan cuaca lan lingkungan.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'Riwayat',
+            description: 'Deleng data cuaca kepungkur kanggo analisis tren.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Analisis',
+            description: 'Pantau tren wulanan, indeks kenyamanan, lan peringatan dini cuaca ekstrem ing kene.',
+            position: 'right',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Pangaturan',
+            description: 'Setel tema, basa, lan preferensi aplikasi liyane ing menu iki.',
+            position: 'right',
+          },
+        ];
+      }
+    }
+
+    // Mobile Steps
+    else {
+      if (language === 'id') {
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Dashboard Utama',
+            description: 'Kembali ke halaman utama untuk melihat ringkasan cuaca dan status sensor terkini.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Data Sensor',
+            description: 'Informasi rinci dari sensor IoT: Kelembaban, Tekanan, Angin, Curah Hujan, CO2, dan Ketinggian.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Perkiraan Cuaca',
+            description: 'Tarik ke atas untuk melihat perkiraan cuaca 7 hari ke depan dari Open Meteo (Pihak Ketiga).',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'Berita',
+            description: 'Dapatkan informasi dan edukasi terbaru seputar cuaca dan lingkungan.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'Riwayat',
+            description: 'Lihat data cuaca masa lampau untuk analisis tren.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Analisis',
+            description: 'Pantau tren bulanan, indeks kenyamanan, dan peringatan dini cuaca ekstrem di sini.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Pengaturan',
+            description: 'Sesuaikan tema, bahasa, dan preferensi aplikasi lainnya di menu ini.',
+            position: 'top',
+          },
+        ];
+      } else if (language === 'en') {
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Main Dashboard',
+            description: 'Return to the main page to view weather summary and latest sensor status.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Sensor Data',
+            description: 'Detailed info from IoT sensors: Humidity, Pressure, Wind, Rainfall, CO2, and Altitude.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Weather Forecast',
+            description: 'Pull up to see the 7-day weather forecast sourced from Open Meteo (Third Party).',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'News',
+            description: 'Get the latest information and education about weather and environment.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'History',
+            description: 'View past weather data for trend analysis.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Insights',
+            description: 'Monitor monthly trends, comfort index, and early extreme weather warnings here.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Settings',
+            description: 'Customize theme, language, and other app preferences in this menu.',
+            position: 'top',
+          },
+        ];
+      } else {
+        // Javanese (Mobile)
+        return [
+          {
+            target: '[data-tour="nav-home"]',
+            title: 'Dashboard Utama',
+            description: 'Bali menyang kaca utama kanggo ndeleng ringkesan cuaca lan status sensor paling anyar.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="sensors-grid"]',
+            title: 'Data Sensor',
+            description: 'Informasi rinci saka sensor IoT: Kelembaban, Tekanan, Angin, Curah Udan, CO2, lan Ketinggian.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="forecast-drawer"]',
+            title: 'Prakiraan Cuaca',
+            description: 'Tarik mendhuwur kanggo ndeleng prakiraan cuaca 7 dina sabanjure saka Open Meteo (Pihak Katelu).',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-news"]',
+            title: 'Warta',
+            description: 'Entuk informasi lan edukasi paling anyar babagan cuaca lan lingkungan.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-history"]',
+            title: 'Riwayat',
+            description: 'Deleng data cuaca kepungkur kanggo analisis tren.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-insights"]',
+            title: 'Analisis',
+            description: 'Pantau tren wulanan, indeks kenyamanan, lan peringatan dini cuaca ekstrem ing kene.',
+            position: 'top',
+          },
+          {
+            target: '[data-tour="nav-settings"]',
+            title: 'Pangaturan',
+            description: 'Setel tema, basa, lan preferensi aplikasi liyane ing menu iki.',
+            position: 'top',
+          },
+        ];
+      }
     }
   };
 
@@ -212,7 +343,22 @@ export function FeatureTour() {
     const currentStep = steps[currentTourStep];
     if (!currentStep) return;
 
-    const targetElement = document.querySelector(currentStep.target);
+    // Helper to find the first visible element matching the selector
+    const findVisibleTarget = (selector: string): HTMLElement | null => {
+      const elements = document.querySelectorAll(selector);
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i] as HTMLElement;
+        const rect = el.getBoundingClientRect();
+        // Check if element has dimension and is likely visible
+        if (rect.width > 0 && rect.height > 0) {
+          return el;
+        }
+      }
+      // Fallback to first element if no visible one found
+      return elements.length > 0 ? (elements[0] as HTMLElement) : null;
+    };
+
+    const targetElement = findVisibleTarget(currentStep.target);
     if (!targetElement) return;
 
     const rect = targetElement.getBoundingClientRect();

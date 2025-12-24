@@ -3,9 +3,9 @@
  * Real-time sensor data communication
  */
 
-import { SOCKET_CONFIG } from '@config/socketConfig';
-import type { SensorReading, SensorMetadata } from '@/types/sensor.types';
-import type { SocketError, HistoryRequest, SocketConnectionState } from '@/types/socket.types';
+import { SOCKET_CONFIG } from '@/config/socketConfig';
+import type { SensorReading, SensorMetadata } from '../../types/sensor.types';
+import type { SocketError, SocketConnectionState } from '../../types/socket.types';
 
 class SocketService {
   private socket: WebSocket | null = null;
@@ -162,29 +162,7 @@ class SocketService {
     }
   }
 
-  /**
-   * Subscribe to sensor updates
-   */
-  subscribeToSensors(): void {
-    this.send('sensor:subscribe');
-    console.log('[WebSocket] Subscribed to sensor updates');
-  }
 
-  /**
-   * Unsubscribe from sensor updates
-   */
-  unsubscribeFromSensors(): void {
-    this.send('sensor:unsubscribe');
-    console.log('[WebSocket] Unsubscribed from sensor updates');
-  }
-
-  /**
-   * Request sensor history
-   */
-  requestHistory(params: HistoryRequest): void {
-    this.send('sensor:request-history', params);
-    console.log('[WebSocket] Requested history:', params);
-  }
 
   /**
    * Start heartbeat to keep connection alive

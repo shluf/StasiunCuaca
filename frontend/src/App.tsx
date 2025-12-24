@@ -10,8 +10,7 @@ import { SettingsView } from './features/settings';
 import { NewsView } from './features/news/NewsView';
 import { InsightsView } from './features/insights/InsightsView';
 import { AuthPage } from './features/auth/AuthPage';
-import { BottomNav } from './components/layout';
-import './index.css';
+import { MainLayout } from './components/layout';
 
 function AppContent() {
   const { hasCompletedOnboarding } = useOnboarding();
@@ -22,28 +21,33 @@ function AppContent() {
     <>
       {!hasCompletedOnboarding ? <Onboarding /> : <FeatureTour />}
 
-      <main className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/history" element={<WeatherHistory />} />
-          <Route path="/insights" element={<InsightsView />} />
-          <Route path="/alert" element={<NotificationHistory />} />
-          <Route path="/settings" element={<SettingsView />} />
-          <Route path="/login" element={<AuthPage />} />
-          <Route path="/register" element={<AuthPage />} />
+      {isAuthPage ? (
+        <main className="min-h-screen">
+          <Routes>
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/register" element={<AuthPage />} />
+          </Routes>
+        </main>
+      ) : (
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/history" element={<WeatherHistory />} />
+            <Route path="/insights" element={<InsightsView />} />
+            <Route path="/alert" element={<NotificationHistory />} />
+            <Route path="/settings" element={<SettingsView />} />
 
-          {/* News Routes */}
-          <Route path="/article" element={<NewsView />} />
-          <Route path="/article/create" element={<NewsView />} />
-          <Route path="/article/:slug" element={<NewsView />} />
-          <Route path="/article/edit/:slug" element={<NewsView />} />
+            {/* News Routes */}
+            <Route path="/article" element={<NewsView />} />
+            <Route path="/article/create" element={<NewsView />} />
+            <Route path="/article/:slug" element={<NewsView />} />
+            <Route path="/article/edit/:slug" element={<NewsView />} />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-
-      {!isAuthPage && <BottomNav />}
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </MainLayout>
+      )}
     </>
   );
 }

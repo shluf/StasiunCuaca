@@ -6,6 +6,7 @@ import { NewsService, type NewsItem } from '@/services/news';
 import { AuthService } from '@/services/auth';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { SearchIcon } from '@/components/icons';
 
 export function NewsView() {
     const { t } = useTranslation('common');
@@ -122,31 +123,40 @@ export function NewsView() {
             {isList && (
                 <div className="pt-6 px-4 max-w-5xl mx-auto animate-fade-in">
                     {/* Header & Controls */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                        <div>
-                            <h1 className="text-3xl font-bold font-display text-forest-900 dark:text-forest-50">
-                                {t('news.title')}
-                            </h1>
-                            <p className="text-sm text-sage-600 dark:text-sage-400 mt-1">
-                                {t('news.subtitle')}
-                            </p>
-                        </div>
+                    {/* Header */}
+                    <div className="text-center mb-6 animate-fade-in">
+                        <h1 className="text-3xl sm:text-4xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">
+                            {t('news.title')}
+                        </h1>
+                        <p className="text-sm text-sage-600 dark:text-sage-400 font-body">
+                            {t('news.subtitle')}
+                        </p>
+                    </div>
 
-                        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                    {/* Controls */}
+                    <div className="flex justify-center mb-8">
+                        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto bg-white/50 dark:bg-forest-900/50 backdrop-blur-sm p-2 rounded-2xl border border-sage-200/40 dark:border-forest-700/40 shadow-sm">
+
+
                             {/* Search */}
-                            <input
-                                type="text"
-                                placeholder={t('news.search')}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none w-full sm:w-64"
-                            />
+                            <div className="relative w-full sm:w-64 group">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <SearchIcon className="h-4 w-4 text-sage-400 group-focus-within:text-forest-500 transition-colors" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder={t('news.search')}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="pl-10 pr-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none w-full transition-all"
+                                />
+                            </div>
 
                             {/* Sort */}
                             <select
                                 value={sortOrder}
                                 onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
-                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none"
+                                className="px-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none transition-all cursor-pointer"
                             >
                                 <option value="newest">{t('news.newest')}</option>
                                 <option value="oldest">{t('news.oldest')}</option>
@@ -155,9 +165,12 @@ export function NewsView() {
                             {isLoggedIn && (
                                 <button
                                     onClick={() => navigate('/article/create')}
-                                    className="bg-forest-600 hover:bg-forest-700 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-sm transition-all whitespace-nowrap"
+                                    className="bg-forest-600 hover:bg-forest-700 text-white text-sm font-bold py-2 px-4 rounded-xl shadow-sm transition-all whitespace-nowrap flex items-center gap-2"
                                 >
-                                    + {t('news.add')}
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                                    </svg>
+                                    {t('news.add')}
                                 </button>
                             )}
                         </div>
@@ -210,32 +223,13 @@ export function NewsView() {
             )}
 
             {isDetail && selectedNews && (
-                <div className="pt-6 px-4 max-w-5xl mx-auto pb-24">
-                    {isLoggedIn && (
-                        <div className="flex justify-end gap-3 mb-4">
-                            <button
-                                onClick={() => navigate(`/article/edit/${selectedNews.slug}`)}
-                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-forest-700 bg-forest-50 hover:bg-forest-100 dark:text-forest-100 dark:bg-forest-800 dark:hover:bg-forest-700 rounded-lg transition-colors border border-forest-200 dark:border-forest-600"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                </svg>
-                                {t('common.edit')}
-                            </button>
-                            <button
-                                onClick={() => handleDelete(selectedNews.id)}
-                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 dark:text-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 rounded-lg transition-colors border border-red-200 dark:border-red-800"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                </svg>
-                                {t('common.delete')}
-                            </button>
-                        </div>
-                    )}
+                <div className="pt-6 px-4 max-w-3xl mx-auto pb-24">
                     <NewsDetail
                         news={selectedNews}
                         onBack={() => navigate('/article')}
+                        isLoggedIn={isLoggedIn}
+                        onEdit={() => navigate(`/article/edit/${selectedNews.slug}`)}
+                        onDelete={() => handleDelete(selectedNews.id)}
                     />
                 </div>
             )}
