@@ -54,3 +54,7 @@ export * from './DropletIcon';
 export * from './LightbulbIcon';
 export * from './AlertTriangleIcon';
 export * from './LungsIcon';
+export * from './CloseIcon';
+export * from './DownloadIcon';
+export * from './FileSpreadsheetIcon';
+export * from './FileTextIcon';

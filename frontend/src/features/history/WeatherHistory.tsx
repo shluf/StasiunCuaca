@@ -5,7 +5,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '@/i18n';
-import { SearchIcon, TemperatureIcon, HumidityIcon, WindIcon, RainfallIcon, CalendarIcon, PressureIcon, AirQualityIcon } from '@/components/icons';
+import { SearchIcon, TemperatureIcon, HumidityIcon, WindIcon, RainfallIcon, CalendarIcon, PressureIcon, AirQualityIcon, DownloadIcon } from '@/components/icons';
 import clsx from 'clsx';
 import {
   XAxis,
@@ -20,6 +20,7 @@ import { useSensorHistory, useSensorInsights } from '@/hooks/useSensorData';
 import { format, subDays, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
 import { id, enUS } from 'date-fns/locale';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { ExportDataModal } from '@/components/ExportDataModal';
 
 // Sensor Types for Filter
 type SensorType = 'temperature' | 'humidity' | 'pressure' | 'windSpeed' | 'rainfall' | 'co2' | 'altitude';
@@ -42,7 +43,10 @@ export function WeatherHistory() {
   // State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSensor, setSelectedSensor] = useState<SensorType>('temperature');
-  const [aggregationInterval, setAggregationInterval] = useState<AggregationInterval>('raw');
+  const [aggregationInterval, setAggregationInterval] = useState<AggregationInterval>('hourly');
+
+  // Export Modal State
+  const [showExportModal, setShowExportModal] = useState(false);
 
   // Date Filter State
   const [showFilterPopup, setShowFilterPopup] = useState(false);
@@ -563,6 +567,21 @@ export function WeatherHistory() {
           </div>
         </div>
 
+        {/* Export Button */}
+        <div className="flex justify-end animate-fade-in">
+          <button
+            onClick={() => setShowExportModal(true)}
+            className={clsx(
+              'px-4 py-3 w-full md:w-48 rounded-xl flex justify-center items-center gap-2',
+              'bg-forest-600 hover:bg-forest-700 text-white',
+              'font-medium text-sm shadow-sm transition-all'
+            )}
+          >
+            <DownloadIcon className="w-4 h-4" />
+            {t('export.button') || 'Export Data'}
+          </button>
+        </div>
+
         {/* History List */}
         <div className="space-y-4 animate-slide-up-delayed">
           <h3 className="font-display font-bold text-xl text-forest-900 dark:text-forest-50 px-2">
@@ -636,6 +655,12 @@ export function WeatherHistory() {
           )}
         </div>
       </div>
+
+      {/* Export Modal */}
+      <ExportDataModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+      />
     </div>
   );
 }

@@ -13,5 +13,14 @@
   "rainfall": "Rainfall",
   "noResults": "No Results Found",
   "tryDifferentSearch": "Try a different search keyword",
-  "recentReadings": "Recent Readings"
+  "recentReadings": "Recent Readings",
+  "export": {
+    "button": "Export Data",
+    "title": "Export Sensor Data",
+    "interval": "Interval",
+    "format": "File Format",
+    "preview": "Preview Data",
+    "download": "Download",
+    "previewNote": "Showing 5 of {{count}} records"
+  }
 }

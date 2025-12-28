@@ -13,5 +13,14 @@
   "rainfall": "Hujan",
   "noResults": "Tidak Ada Hasil",
   "tryDifferentSearch": "Coba kata kunci pencarian yang berbeda",
-  "recentReadings": "Bacaan Terkini"
+  "recentReadings": "Bacaan Terkini",
+  "export": {
+    "button": "Ekspor Data",
+    "title": "Ekspor Data Sensor",
+    "interval": "Interval",
+    "format": "Format File",
+    "preview": "Pratinjau Data",
+    "download": "Unduh",
+    "previewNote": "Menampilkan 5 dari {{count}} data"
+  }
 }

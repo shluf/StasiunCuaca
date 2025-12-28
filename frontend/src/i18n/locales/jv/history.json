@@ -13,5 +13,14 @@
   "rainfall": "Udan",
   "noResults": "Ora Ketemu",
   "tryDifferentSearch": "Coba tembung kunci panelusuran liyane",
-  "recentReadings": "Wacan Paling Anyar"
+  "recentReadings": "Wacan Paling Anyar",
+  "export": {
+    "button": "Ekspor Data",
+    "title": "Ekspor Data Sensor",
+    "interval": "Interval",
+    "format": "Format File",
+    "preview": "Pratinjau Data",
+    "download": "Undhuh",
+    "previewNote": "Nuduhake 5 saka {{count}} data"
+  }
 }
