@@ -6,7 +6,7 @@ import { NewsService, type NewsItem } from '@/services/news';
 import { AuthService } from '@/services/auth';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { SearchIcon } from '@/components/icons';
+import { SearchIcon, ChevronLeftIcon } from '@/components/icons';
 
 export function NewsView() {
     const { t } = useTranslation('common');
@@ -135,7 +135,7 @@ export function NewsView() {
 
                     {/* Controls */}
                     <div className="flex justify-center mb-8">
-                        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto bg-white/50 dark:bg-forest-900/50 backdrop-blur-sm p-2 rounded-2xl border border-sage-200/40 dark:border-forest-700/40 shadow-sm">
+                        <div className="flex flex-col sm:flex-row justify-center gap-3 w-full md:w-auto bg-white/50 dark:bg-forest-900/50 backdrop-blur-sm p-2 rounded-2xl border border-sage-200/40 dark:border-forest-700/40 shadow-sm">
 
 
                             {/* Search */}
@@ -148,7 +148,7 @@ export function NewsView() {
                                     placeholder={t('news.search')}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="pl-10 pr-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none w-full transition-all"
+                                    className="pl-10 pr-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 placeholder:text-sage-500 dark:placeholder:text-sage-400 text-sm focus:ring-2 focus:ring-forest-500 outline-none w-full transition-all"
                                 />
                             </div>
 
@@ -156,7 +156,7 @@ export function NewsView() {
                             <select
                                 value={sortOrder}
                                 onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
-                                className="px-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm focus:ring-2 focus:ring-forest-500 outline-none transition-all cursor-pointer"
+                                className="px-4 py-2 rounded-xl border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 text-sm focus:ring-2 focus:ring-forest-500 outline-none transition-all cursor-pointer"
                             >
                                 <option value="newest">{t('news.newest')}</option>
                                 <option value="oldest">{t('news.oldest')}</option>
@@ -225,9 +225,9 @@ export function NewsView() {
                             <button
                                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                 disabled={currentPage === 1}
-                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm disabled:opacity-50 hover:bg-sage-50 dark:hover:bg-forest-700 transition-colors"
+                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 text-sm disabled:opacity-50 hover:bg-sage-50 dark:hover:bg-forest-700 transition-colors flex items-center justify-center"
                             >
-                                ←
+                                <ChevronLeftIcon className="w-5 h-5" />
                             </button>
 
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
@@ -236,7 +236,7 @@ export function NewsView() {
                                     onClick={() => setCurrentPage(page)}
                                     className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${currentPage === page
                                         ? 'bg-forest-600 text-white shadow-md'
-                                        : 'bg-white dark:bg-forest-800 border border-sage-200 dark:border-forest-700 hover:bg-sage-50 dark:hover:bg-forest-700'
+                                        : 'bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 border border-sage-200 dark:border-forest-700 hover:bg-sage-50 dark:hover:bg-forest-700'
                                         }`}
                                 >
                                     {page}
@@ -246,9 +246,9 @@ export function NewsView() {
                             <button
                                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                 disabled={currentPage === totalPages}
-                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-sm disabled:opacity-50 hover:bg-sage-50 dark:hover:bg-forest-700 transition-colors"
+                                className="px-4 py-2 rounded-lg border border-sage-200 dark:border-forest-700 bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 text-sm disabled:opacity-50 hover:bg-sage-50 dark:hover:bg-forest-700 transition-colors flex items-center justify-center"
                             >
-                                →
+                                <ChevronLeftIcon className="w-5 h-5 rotate-180" />
                             </button>
                         </div>
                     )}

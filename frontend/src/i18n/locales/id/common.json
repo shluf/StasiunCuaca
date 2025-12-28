@@ -132,6 +132,7 @@
     "altitude": "Ketinggian",
     "connected": "Terhubung",
     "disconnected": "Terputus",
+    "reconnecting": "Menghubungkan kembali...",
     "noData": "Data Tidak Tersedia"
   },
   "forecast": {

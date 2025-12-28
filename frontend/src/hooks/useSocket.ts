@@ -9,16 +9,11 @@ import type { SensorReading, SensorMetadata } from '@/types/sensor.types';
 import type { SocketConnectionState } from '@/types/socket.types';
 
 export function useSocket() {
-  const [connectionState, setConnectionState] = useState<SocketConnectionState>({
-    connected: false,
-    error: null,
-    reconnecting: false,
-  });
+  const [connectionState, setConnectionState] = useState<SocketConnectionState>(
+    socketService.getConnectionState()
+  );
 
   useEffect(() => {
-    // Connect on mount
-    socketService.connect();
-
     // Listen for connection state changes
     const handleConnection = (data: { connected: boolean; reason?: string }) => {
       setConnectionState(prev => ({
@@ -45,6 +40,9 @@ export function useSocket() {
     socketService.on('connection', handleConnection);
     socketService.on('error', handleError);
     socketService.on('reconnecting', handleReconnecting);
+
+    // Connect on mount
+    socketService.connect();
 
     // Cleanup on unmount
     return () => {

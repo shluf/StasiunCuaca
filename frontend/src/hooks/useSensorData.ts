@@ -15,26 +15,20 @@ interface UseSensorDataReturn {
   isLoading: boolean;
   error: string | null;
   isConnected: boolean;
+  isReconnecting: boolean;
 }
 
 export function useSensorData(): UseSensorDataReturn {
   const { isConnected, connectionState } = useSocket();
   const [data, setData] = useState<SensorReading | null>(null);
   const [metadata, setMetadata] = useState<SensorMetadata | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!isConnected) {
-      setIsLoading(false);
-      return;
-    }
-
-    setIsLoading(true);
+    if (!isConnected) return;
 
     // Listen for sensor data updates
     const handleUpdate = (newData: SensorReading) => {
       setData(newData);
-      setIsLoading(false);
     };
 
     // Listen for sensor status/metadata
@@ -45,7 +39,6 @@ export function useSensorData(): UseSensorDataReturn {
     // Listen for errors
     const handleError = (error: { message: string }) => {
       console.error('[useSensorData] Error:', error.message);
-      setIsLoading(false);
     };
 
     socketService.on('sensor:update', handleUpdate);
@@ -63,9 +56,10 @@ export function useSensorData(): UseSensorDataReturn {
   return {
     data,
     metadata,
-    isLoading: isLoading || (!isConnected && !connectionState.error),
+    isLoading: isConnected && !data && !connectionState.error && !connectionState.reconnecting,
     error: connectionState.error,
     isConnected,
+    isReconnecting: connectionState.reconnecting,
   };
 }
 

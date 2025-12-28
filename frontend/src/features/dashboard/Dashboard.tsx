@@ -46,17 +46,37 @@ function SensorCard({ icon, label, value, unit }: SensorCardProps) {
 
 export function Dashboard() {
   const { t } = useTranslation('common');
-  const { data, metadata, isLoading, error, isConnected } = useSensorData();
+  const { data, metadata, isLoading, error, isConnected, isReconnecting } = useSensorData();
 
   // Main content wrapper
   return (
-    <div className="min-h-screen  pb-48">
+    <div className="min-h-screen  pb-32">
       {/* Theme Toggle - Fixed Top Right */}
       <div className="fixed top-4 right-4 z-30 animate-fade-in">
         <ThemeToggleButton />
       </div>
 
       <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+        {/* Header - Always visible */}
+        <div className="text-center mb-8 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">
+            {metadata?.location || t('app.name')}
+          </h1>
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <div
+              className={clsx(
+                'w-2 h-2 rounded-full',
+                isConnected ? 'bg-mint-500 animate-pulse-soft shadow-glow-green' :
+                  isReconnecting ? 'bg-amber-500 animate-pulse shadow-glow-amber' : 'bg-red-500'
+              )}
+            />
+            <span className="text-sage-700 dark:text-sage-300 font-body">
+              {isConnected ? t('dashboard.connected') :
+                isReconnecting ? t('dashboard.reconnecting') : t('dashboard.disconnected')}
+            </span>
+          </div>
+        </div>
+
         {/* Loading State */}
         {isLoading && !data && (
           <div className="space-y-4">
@@ -67,8 +87,8 @@ export function Dashboard() {
           </div>
         )}
 
-        {/* Error State */}
-        {error && !data && (
+        {/* Error State (only if not reconnecting and no data) */}
+        {error && !data && !isReconnecting && (
           <div className="flex items-center justify-center min-h-[50vh]">
             <div className="text-center bg-white/80 dark:bg-forest-900/80 backdrop-blur-md rounded-3xl p-8 shadow-glass-light dark:shadow-glass-dark max-w-md">
               <div className="text-5xl mb-4">
@@ -84,27 +104,9 @@ export function Dashboard() {
           </div>
         )}
 
-        {/* Data State */}
-        {!isLoading && !error && data && (
+        {/* Data State or Reconnecting State */}
+        {!isLoading && (!error || data || isReconnecting) && (
           <>
-            {/* Header */}
-            <div className="text-center mb-8 animate-fade-in">
-              <h1 className="text-4xl sm:text-5xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">
-                {metadata?.location || t('app.name')}
-              </h1>
-              <div className="flex items-center justify-center gap-2 text-sm">
-                <div
-                  className={clsx(
-                    'w-2 h-2 rounded-full',
-                    isConnected ? 'bg-mint-500 animate-pulse-soft shadow-glow-green' : 'bg-red-500'
-                  )}
-                />
-                <span className="text-sage-700 dark:text-sage-300 font-body">
-                  {isConnected ? t('dashboard.connected') : t('dashboard.disconnected')}
-                </span>
-              </div>
-            </div>
-
             {/* Main Temperature Card */}
             <div className="relative overflow-hidden rounded-3xl bg-gradient-glass-light dark:bg-gradient-glass-dark backdrop-blur-md border border-sage-200/40 dark:border-forest-700/40 p-8 shadow-glass-light dark:shadow-glass-dark mb-6 animate-scale-in" data-tour="weather-card">
               {/* Background decoration */}

@@ -131,6 +131,7 @@
     "altitude": "Altitude",
     "connected": "Connected",
     "disconnected": "Disconnected",
+    "reconnecting": "Reconnecting...",
     "noData": "No Data Available"
   },
   "forecast": {

@@ -49,6 +49,7 @@
     "altitude": "Ketinggian",
     "connected": "Sambung",
     "disconnected": "Pedhot",
+    "reconnecting": "Nyambung maneh...",
     "noData": "Data Ora Ana"
   },
   "forecast": {

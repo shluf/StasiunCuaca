@@ -22,9 +22,16 @@ class SocketService {
   /**
    * Initialize WebSocket connection
    */
-  connect(): void {
+  connect(isManual: boolean = true): void {
+    if (isManual) {
+      this.reconnectAttempts = 0;
+      this.clearTimers();
+    }
+
     if (this.socket?.readyState === WebSocket.OPEN) {
       console.log('[WebSocket] Already connected');
+      // Still notify listeners in case they just mounted
+      this.notifyListeners('connection', { connected: true });
       return;
     }
 
@@ -44,7 +51,7 @@ class SocketService {
       setTimeout(() => {
         if (this.socket?.readyState === WebSocket.CONNECTING) {
           console.warn('[WebSocket] Connection timeout - closing and retrying');
-          this.socket.close();
+          this.socket?.close();
         }
       }, 10000); // 10s timeout
     } catch (error) {
@@ -198,8 +205,8 @@ class SocketService {
     console.log(`[WebSocket] Reconnecting in ${delay}ms... (attempt ${this.reconnectAttempts})`);
     this.notifyListeners('reconnecting', { attemptNumber: this.reconnectAttempts });
 
-    this.reconnectTimer = setTimeout(() => {
-      this.connect();
+    this.reconnectTimer = window.setTimeout(() => {
+      this.connect(false);
     }, delay);
   }
 
