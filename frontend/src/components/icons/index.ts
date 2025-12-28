@@ -44,3 +44,13 @@ export * from './PaletteIcon';
 export * from './CalendarIcon';
 export * from './ChartIcon';
 export * from './ChevronLeftIcon';
+
+// Insight & Alert Icons
+export * from './BrainIcon';
+export * from './ClockIcon';
+export * from './FlameIcon';
+export * from './SnowflakeIcon';
+export * from './DropletIcon';
+export * from './LightbulbIcon';
+export * from './AlertTriangleIcon';
+export * from './LungsIcon';

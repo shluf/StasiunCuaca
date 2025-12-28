@@ -101,7 +101,7 @@ export function Sidebar({ onToggleForecast, isForecastOpen }: SidebarProps) {
                             title={isCollapsed ? item.label : undefined}
                             data-tour={`nav-${item.path === '/' ? 'home' : item.path === '/article' ? 'news' : item.path.substring(1)}`}
                         >
-                            <div className={`flex items-center justify-center w-full ${!isCollapsed ? 'w-auto' : 'w-full'}`}>
+                            <div className={`flex items-center justify-center ${!isCollapsed ? 'w-auto' : 'w-full'}`}>
                                 <item.icon className={clsx('w-6 h-6 flex-shrink-0', active && 'animate-pulse-soft')} />
                             </div>
 

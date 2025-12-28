@@ -15,7 +15,7 @@ import { MainLayout } from './components/layout';
 function AppContent() {
   const { hasCompletedOnboarding } = useOnboarding();
   const location = useLocation();
-  const isAuthPage = ['/login', '/register'].includes(location.pathname);
+  const isAuthPage = location.pathname === '/login';
 
   return (
     <>
@@ -25,7 +25,7 @@ function AppContent() {
         <main className="min-h-screen">
           <Routes>
             <Route path="/login" element={<AuthPage />} />
-            <Route path="/register" element={<AuthPage />} />
+            <Route path="/register" element={<Navigate to="/login" replace />} />
           </Routes>
         </main>
       ) : (

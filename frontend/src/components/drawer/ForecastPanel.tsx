@@ -88,7 +88,7 @@ export function ForecastPanelDesktop({ isOpen, onToggle }: { isOpen: boolean, on
                     <h2 className="font-display font-bold text-forest-900 dark:text-forest-50">
                         {t('forecast.title')}
                     </h2>
-                    <button onClick={onToggle} className="p-1.5 rounded-lg hover:bg-sage-100 dark:hover:bg-forest-800">
+                    <button onClick={onToggle} className="p-1.5 rounded-lg hover:bg-sage-100 dark:hover:bg-forest-800 text-sage-600 dark:text-sage-400 transition-colors">
                         <ChevronLeftIcon className="w-5 h-5" />
                     </button>
                 </div>

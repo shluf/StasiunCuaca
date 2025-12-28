@@ -119,7 +119,7 @@ export function NewsView() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark pb-24">
+        <div className="min-h-screen pb-24">
             {isList && (
                 <div className="pt-6 px-4 max-w-5xl mx-auto animate-fade-in">
                     {/* Header & Controls */}
@@ -177,7 +177,40 @@ export function NewsView() {
                     </div>
 
                     {loading ? (
-                        <div className="text-center py-10 text-sage-500">{t('common.loading')}</div>
+                        <div className="grid gap-4 pb-4 md:grid-cols-2 animate-pulse">
+                            {/* Featured skeleton (spans 2 columns) */}
+                            <div className="md:col-span-2 bg-white/70 dark:bg-forest-900/40 backdrop-blur-md rounded-2xl overflow-hidden border border-sage-200/50 dark:border-forest-700/50">
+                                <div className="h-64 md:h-80 bg-sage-200 dark:bg-forest-700"></div>
+                                <div className="p-4 space-y-3">
+                                    <div className="h-6 bg-sage-200 dark:bg-forest-700 rounded-lg w-3/4"></div>
+                                    <div className="flex justify-between">
+                                        <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-20"></div>
+                                        <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-24"></div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-full"></div>
+                                        <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-5/6"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Regular skeletons */}
+                            {[...Array(4)].map((_, i) => (
+                                <div key={i} className="bg-white/70 dark:bg-forest-900/40 backdrop-blur-md rounded-2xl overflow-hidden border border-sage-200/50 dark:border-forest-700/50">
+                                    <div className="h-48 bg-sage-200 dark:bg-forest-700"></div>
+                                    <div className="p-4 space-y-3">
+                                        <div className="h-5 bg-sage-200 dark:bg-forest-700 rounded-lg w-2/3"></div>
+                                        <div className="flex justify-between">
+                                            <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-16"></div>
+                                            <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-20"></div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-full"></div>
+                                            <div className="h-3 bg-sage-200 dark:bg-forest-700 rounded w-4/5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     ) : (
                         <NewsList
                             news={paginatedNews}

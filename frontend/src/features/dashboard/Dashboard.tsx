@@ -50,7 +50,7 @@ export function Dashboard() {
 
   // Main content wrapper
   return (
-    <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark pb-48">
+    <div className="min-h-screen  pb-48">
       {/* Theme Toggle - Fixed Top Right */}
       <div className="fixed top-4 right-4 z-30 animate-fade-in">
         <ThemeToggleButton />

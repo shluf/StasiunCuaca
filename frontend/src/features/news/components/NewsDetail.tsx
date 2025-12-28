@@ -82,7 +82,6 @@ export function NewsDetail({ news, onBack, isLoggedIn, onEdit, onDelete }: NewsD
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            {/* Optional: Overlay title here if desired, but sticking to request */}
                         </div>
                     </div>
                 )}

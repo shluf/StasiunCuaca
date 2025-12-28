@@ -5,7 +5,13 @@ import {
     TemperatureIcon,
     HumidityIcon,
     WindIcon,
-    RainfallIcon
+    RainfallIcon,
+    BrainIcon,
+    ClockIcon,
+    FlameIcon,
+    SnowflakeIcon,
+    LightbulbIcon,
+    AlertTriangleIcon
 } from '@/components/icons';
 import clsx from 'clsx';
 import {
@@ -104,7 +110,7 @@ export function InsightsView() {
     })).reverse() || [];
 
     return (
-        <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark pb-32">
+        <div className="min-h-screen  pb-32">
             <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-8">
 
                 {/* Header */}
@@ -161,9 +167,10 @@ export function InsightsView() {
                             color="indigo"
                         />
                     </div>
-                    <div className="mt-3 bg-white/60 dark:bg-forest-900/60 backdrop-blur rounded-xl p-3 border border-sage-200/50 dark:border-forest-700/50 text-sm text-sage-600 dark:text-sage-300">
-                        💡 <strong>{t('common.insights.insightPrefix')}</strong> {t('common.insights.insightTemp', { avg: insights.avgTemp.toFixed(1), max: insights.maxTemp.toFixed(1) })}
-                        {insights.avgHum > 80 ? ` ${t('common.insights.insightHumHigh')}` : ` ${t('common.insights.insightHumNormal')}`}
+                    <div className="mt-3 bg-white/60 dark:bg-forest-900/60 backdrop-blur rounded-xl p-3 border border-sage-200/50 dark:border-forest-700/50 text-sm text-sage-600 dark:text-sage-300 flex items-start gap-2">
+                        <LightbulbIcon className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-500" />
+                        <span><strong>{t('common.insights.insightPrefix')}</strong> {t('common.insights.insightTemp', { avg: insights.avgTemp.toFixed(1), max: insights.maxTemp.toFixed(1) })}
+                            {insights.avgHum > 80 ? ` ${t('common.insights.insightHumHigh')}` : ` ${t('common.insights.insightHumNormal')}`}</span>
                     </div>
                 </section>
 
@@ -189,7 +196,7 @@ export function InsightsView() {
                                 </div>
                             </div>
                             <div className="text-5xl opacity-20">
-                                {insights.prevMonthDiff > 0 ? '🔥' : '❄️'}
+                                {insights.prevMonthDiff > 0 ? <FlameIcon className="w-12 h-12" /> : <SnowflakeIcon className="w-12 h-12" />}
                             </div>
                         </div>
 
@@ -216,12 +223,13 @@ export function InsightsView() {
                                 </div>
                             </div>
                             <div className="text-5xl opacity-20">
-                                ⏰
+                                <ClockIcon className="w-12 h-12" />
                             </div>
                         </div>
 
-                        <div className="mt-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-xs text-orange-800 dark:text-orange-200 border border-orange-100 dark:border-orange-900/30">
-                            ⚠️ {t('common.insights.peakAdvice')}
+                        <div className="mt-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-xs text-orange-800 dark:text-orange-200 border border-orange-100 dark:border-orange-900/30 flex items-start gap-2">
+                            <AlertTriangleIcon className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                            <span>{t('common.insights.peakAdvice')}</span>
                         </div>
                     </section>
                 </div>
@@ -295,7 +303,7 @@ export function InsightsView() {
                 {/* 4. Advanced Combined Insights */}
                 <section className="bg-gradient-to-br from-forest-800 to-forest-900 rounded-3xl p-6 text-white shadow-xl animate-scale-in">
                     <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <span className="text-2xl">🧠</span> {t('common.insights.smartAnalysis')}
+                        <BrainIcon className="w-6 h-6" /> {t('common.insights.smartAnalysis')}
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -336,7 +344,7 @@ export function InsightsView() {
                                         alert.level === 'info' && "bg-blue-500/20 text-blue-200"
                                     )}
                                 >
-                                    <span className="text-lg">{alert.icon}</span>
+                                    <span className="flex-shrink-0">{alert.icon}</span>
                                     <span>{alert.message}</span>
                                 </div>
                             ))}

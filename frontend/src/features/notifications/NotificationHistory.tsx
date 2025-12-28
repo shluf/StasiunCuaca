@@ -50,7 +50,7 @@ export function NotificationHistory() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark p-4 pt-8 pb-24">
+        <div className="min-h-screen  p-4 pt-8 pb-24">
             <div className="max-w-2xl mx-auto animate-fade-in">
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold font-display text-forest-900 dark:text-forest-50 mb-2">

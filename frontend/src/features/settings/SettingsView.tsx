@@ -23,7 +23,7 @@ export function SettingsView() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-sage-light dark:bg-gradient-forest-dark bg-mesh-light dark:bg-mesh-dark p-4 pt-8 pb-24">
+        <div className="min-h-screen p-4 pt-8 pb-24">
             <div className="max-w-2xl mx-auto animate-fade-in">
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold font-display text-forest-900 dark:text-forest-50 mb-6 text-center">
@@ -63,7 +63,7 @@ export function SettingsView() {
                                     onClick={() => navigate('/login')}
                                     className="bg-forest-600 hover:bg-forest-700 text-white px-6 py-2 rounded-lg font-bold transition-colors w-full sm:w-auto"
                                 >
-                                    {language === 'id' ? 'Masuk / Daftar' : 'Login / Register'}
+                                    {language === 'id' ? 'Masuk' : language === 'en' ? 'Login' : language === 'jv' ? 'Mlebu' : 'Login'}
                                 </button>
                             </div>
                         )}
@@ -114,7 +114,7 @@ export function SettingsView() {
                             }}
                             className="text-sage-600 dark:text-sage-400 text-sm hover:underline hover:text-forest-600 dark:hover:text-mint-400 transition-colors"
                         >
-                            {language === 'id' ? 'Mulai Ulang Tur Fitur' : 'Restart Feature Tour'}
+                            {language === 'id' ? 'Mulai Ulang Tur Fitur' : language === 'en' ? 'Restart Feature Tour' : language === 'jv' ? 'Baleni Tour Fitur' : 'Restart Feature Tour'}
                         </button>
 
                         <div>
