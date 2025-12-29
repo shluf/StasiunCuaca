@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# StasiunCuaca - Weather Station Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend aplikasi monitoring cuaca realtime berbasis React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## ✨ Fitur
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📊 Dashboard monitoring cuaca realtime
+- 📈 Visualisasi data dengan grafik interaktif (Recharts)
+- 📰 Modul berita cuaca
+- 📤 Export data ke Excel
+- 🔗 WebSocket untuk data realtime
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React 19 + TypeScript
+- **Build Tool:** Vite 7
+- **Styling:** Tailwind CSS
+- **Charts:** Recharts
+- **HTTP Client:** Axios
+- **i18n:** i18next
+- **Routing:** React Router DOM v7
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js >= 22
+- npm atau yarn
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Clone repository
+git clone https://github.com/shluf/StasiunCuaca.git
+cd StasiunCuaca
+
+# Install dependencies
+npm install
+
+# Copy environment file
+cp .env.example .env
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Buat file `.env` dengan konfigurasi berikut:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_BASE_URL=http://localhost:8080
+VITE_SOCKET_URL=ws://localhost:8080/ws
 ```
+
+### Development
+
+```bash
+# Start development server
+npm run dev
+
+# Linting
+npm run lint
+
+# Build production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 🐳 Docker
+
+### Build Image
+
+```bash
+docker build \
+  --build-arg VITE_API_BASE_URL=https://api.example.com \
+  --build-arg VITE_SOCKET_URL=wss://api.example.com/ws \
+  -t stasiuncuaca-fe .
+```
+
+### Run Container
+
+```bash
+docker run -d -p 80:80 stasiuncuaca-fe
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── app/              # App providers & configuration
+├── assets/           # Static assets (images, icons)
+├── components/       # Reusable UI components
+├── config/           # App configuration
+├── contexts/         # React contexts
+├── features/         # Feature modules
+│   ├── auth/         # Authentication
+│   ├── dashboard/    # Main dashboard
+│   ├── history/      # Historical data
+│   ├── insights/     # Data insights
+│   ├── news/         # News module
+│   ├── notifications/# Notifications
+│   └── settings/     # User settings
+├── hooks/            # Custom React hooks
+├── i18n/             # Internationalization
+├── services/         # API services
+├── types/            # TypeScript types
+└── utils/            # Utility functions
+```
+
+## 📝 License
+
+MIT License
